@@ -1,0 +1,23 @@
+{% extends "boards/base.html" %}
+{% block title %}Your Boards{% endblock %}
+{% block content %}
+<h1 style="color:white;">Your Boards</h1>
+
+<div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
+    {% for board in boards %}
+        <a href="{% url 'board_detail' board.id %}" style="text-decoration:none;">
+            <div style="background:#fff; border-radius:6px; padding:16px 20px; min-width:180px; box-shadow:0 1px 0 rgba(9,30,66,.25);">
+                <strong>{{ board.name }}</strong>
+            </div>
+        </a>
+    {% empty %}
+        <p style="color:white;">No boards yet — create one below.</p>
+    {% endfor %}
+</div>
+
+<form class="inline" method="post" action="{% url 'board_create' %}" style="max-width:400px;">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="New board name" required>
+    <button class="btn" type="submit">Create Board</button>
+</form>
+{% endblock %}
